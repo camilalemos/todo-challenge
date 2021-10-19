@@ -21,5 +21,7 @@ from ToDoList.views import *
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('create/<str:description>',create_tasks),
-    path('get/',get_tasks)
+    path('get/',get_tasks),
+    path('delete/<int:id>',delete_task),
+    path('complete/<int:id>',complete_task)
 ]

@@ -19,3 +19,20 @@ def create_tasks(request,description):
 def get_tasks(request):
     tasks_list = Task.objects.all()
     return HttpResponse(tasks_list)
+
+def delete_task(request, id):
+    try:
+        task = Task.objects.get(id = id)
+        task.delete()
+        return HttpResponse("Task deleted successfully!")
+    except:
+        return HttpResponse("Task doesn't exists")
+
+def complete_task(request, id):
+    try:
+        task = Task.objects.get(id = id)
+        task.completed=True
+        task.save()
+        return HttpResponse("Task completed successfully!")
+    except:
+        return HttpResponse("Task doesn't exists")
