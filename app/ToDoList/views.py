@@ -4,28 +4,31 @@ from datetime import *
 from django.utils import dateformat   
 
 from .models import *
+from log import Logger
 
+logger = Logger("ToDo_Log.log") 
 
-# Create your views here.
 
 def create_tasks(request,description):
     formatted_date = dateformat.format(datetime.now().date(), 'Y-m-d')
-    print(str(formatted_date))
     task = Task(description=description,creation_date=formatted_date)
 
     task.save()
+    logger.log_message(f"Created task {task.id} successfully")
     return HttpResponse(task.id)
 
 def get_tasks(request):
-    tasks_list = Task.objects.all()
-    return HttpResponse(tasks_list)
+    tasks_queryset = Task.objects.all()
+    return HttpResponse(tasks_queryset)
 
 def delete_task(request, id):
     try:
         task = Task.objects.get(id = id)
+        logger.log_message(f"Deleted task {task.id} successfully")
         task.delete()
         return HttpResponse("Task deleted successfully!")
     except:
+        logger.log_error("Task doesn't exists")
         return HttpResponse("Task doesn't exists")
 
 def complete_task(request, id):
@@ -33,6 +36,7 @@ def complete_task(request, id):
         task = Task.objects.get(id = id)
         task.completed=True
         task.save()
+        logger.log_message("Task completed successfully!")
         return HttpResponse("Task completed successfully!")
     except:
         return HttpResponse("Task doesn't exists")
