@@ -23,5 +23,8 @@ urlpatterns = [
     path('create/<str:description>',create_tasks),
     path('get/',get_tasks),
     path('delete/<int:id>',delete_task),
-    path('complete/<int:id>',complete_task)
+    path('complete/<int:id>',complete_task),
+    path('filter_date_eq/<str:date>',filter_task_date_eq),
+    path('filter_date_gt/<str:date>',filter_task_date_gt),
+    path('filter_content/<str:content>',filter_task_content)
 ]
